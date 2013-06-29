@@ -9,5 +9,5 @@ end
 task :time_target_hours do
     contents = get_contents
     reg_by_hour = get_registrations_by_hour(contents)
-    #puts reg_by_hour
+    puts reg_by_hour
 end

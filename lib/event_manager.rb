@@ -59,13 +59,19 @@ def generate_form_letters (contents, erb_template)
 end
 
 def get_registrations_by_hour(contents)
-    hours = []
-    hours = contents.collect do |row|
+    hours = {}
+    contents.each do |row|
         reg_date = row[:regdate].to_s
-        date_time = DateTime.strptime(reg_date, '%m/%d/%y %H:%M')
-        "#{date_time.hour}"
+        hour = DateTime.strptime(reg_date, '%m/%d/%y %H:%M').hour.to_s
+        if !hours.has_key?(hour)
+            hours[hour] = 1
+        else
+            hours[hour] = hours[hour] + 1
+        end
     end
-    #HOW?
+    #return hours.sort_by { |hour, repeats| repeats }
+    max_hash = hours.max_by { |hour, repeats| repeats }
+    return "Most registrations occured at #{max_hash[0]}. The registration amount was #{max_hash[1]} times."
 
 end
 
