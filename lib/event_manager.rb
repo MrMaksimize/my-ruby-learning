@@ -37,7 +37,7 @@ def save_thank_you_letters(id,form_letter)
     end
 end
 
-def get_contents
+def get_contents 
     return CSV.open "event_attendees.csv", headers: true, header_converters: :symbol
 end
 
@@ -73,5 +73,20 @@ def get_registrations_by_hour(contents)
     max_hash = hours.max_by { |hour, repeats| repeats }
     return "Most registrations occured at #{max_hash[0]}. The registration amount was #{max_hash[1]} times."
 
+end
+
+def get_registrations_by_day(contents)
+    days = {}
+    contents.each do |row|
+        reg_date = row[:regdate].to_s
+        day = DateTime.strptime(reg_date, '%m/%d/%y %H:%M').strftime('%A').to_s
+        if !days.has_key?(day)
+            days[day] = 1
+        else
+            days[day] = days[day] + 1
+        end
+    end
+    max_hash = days.max_by { |day, repeats| day }
+    return "Most registrations occured on #{max_hash[0]}. There were #{max_hash[1]} registrations."
 end
 
