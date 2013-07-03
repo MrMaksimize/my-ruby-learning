@@ -47,7 +47,7 @@ class MicroBlogger
             puts "Spamming #{follower} with message: #{message}"
             dm(follower, message)
         end
-
+            
     end
 
     def run
