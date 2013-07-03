@@ -28,12 +28,26 @@ class MicroBlogger
     end
 
     def verify_dm_target(target)
-        screen_names = @client.followers.collect{|follower| follower.screen_name}
+        screen_names = get_followers_list
         if screen_names.include?target
             return true
         else
             return false
         end
+    end
+
+    def get_followers_list
+        screen_names = @client.followers.collect{|follower| follower.screen_name}
+        return screen_names
+    end
+
+    def spam_my_followers(message)
+        followers = get_followers_list
+        followers.each do |follower|
+            puts "Spamming #{follower} with message: #{message}"
+            dm(follower, message)
+        end
+
     end
 
     def run
@@ -49,6 +63,8 @@ class MicroBlogger
             when 't' then self.tweet(parts[1..-1].join(" "))
             when 'dm' then
                 dm(parts[1], parts[2..-1].join(" "))
+            when 'spam' then
+                spam_my_followers(parts[1..-1].join(" "))
             else
                 puts "Hey WTF is #{command}"
             end
