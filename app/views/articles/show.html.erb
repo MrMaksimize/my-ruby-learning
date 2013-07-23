@@ -4,6 +4,9 @@
 <%= link_to "DECIMATE", article_path(@article), method: :delete, confirm: "Sure?" %>
 </p>
 <p><%= link_to "edit", edit_article_path(@article) %> </p>
+<h3>Comments</h3>
+<%= render partial: 'comments/form' %>
+<%= render partial: 'articles/comment', collection: @article.comments %>
 <p>
 <%= link_to "<< Back to Articles List", articles_path %>
 </p>
